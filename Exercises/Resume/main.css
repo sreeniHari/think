@@ -1,0 +1,27 @@
+body{
+    background: DarkGrey;
+    font: calibri;
+    font-size: 20px;
+    border-style: hidden;
+}
+
+hr {
+    border: none;
+    border-top: 1px dotted white;
+}
+
+td{
+    font: calibri;
+    font-style: italic;
+}
+
+address {
+    display: block;
+    font-style: italic;
+}
+
+main {
+    font-style: italic;
+}
+
+
