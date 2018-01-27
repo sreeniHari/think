@@ -6,4 +6,9 @@ function main()
 
 };
 
+function test()
+{
+
+};
+
 main();
