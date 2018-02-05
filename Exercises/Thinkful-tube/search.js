@@ -16,7 +16,7 @@ function getDataFromApi(searchTerm, callback) {
 function renderResult(result) {
     return `
     <div>
-    <img class="banner" src=${result.thumbnails.high.url}>
+    <img class="banner" src="${result.snippet.thumbnails.high.url}">
     </div>
   `;
 }
