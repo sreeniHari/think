@@ -1,7 +1,4 @@
-const GITHUB_SEARCH_URL = 'https://api.github.com/search/repositories';
 const YOUTUBE_DATA_API =  'https://www.googleapis.com/youtube/v3/search';
-// full URL
-// https://www.googleapis.com/youtube/v3/search?part=snippet&q=thinkful&key=AIzaSyDp-1hKduSFbiyblNkHj4YulGn8quWxdw0
 
 function getDataFromApi(searchTerm, callback) {
     const query = {
@@ -21,7 +18,7 @@ function renderResult(result) {
   `;
 }
 
-function displayGitHubSearchData(data) {
+function displayYoutubeSearchData(data) {
 
     const results = data.items.map((item, index) => renderResult(item));
     console.log(results);
@@ -35,7 +32,7 @@ function watchSubmit() {
     const query = queryTarget.val();
     // clear out the input
     queryTarget.val("");
-    getDataFromApi(query, displayGitHubSearchData);
+    getDataFromApi(query, displayYoutubeSearchData);
 });
 }
 
