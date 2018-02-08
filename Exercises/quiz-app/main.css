@@ -1,4 +1,7 @@
-.startup{
-    padding-top: 300px;
-    padding-left: 250px;
+body {
+    text-align: center;
+}
+.startup {
+    width: 300px;
+    margin: 300px auto;
 }
