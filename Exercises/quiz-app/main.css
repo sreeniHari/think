@@ -3,5 +3,9 @@ body {
 }
 .startup {
     width: 300px;
-    margin: 300px auto;
+    margin: 100px auto;
+}
+
+.startup img {
+    width: 100px;
 }
