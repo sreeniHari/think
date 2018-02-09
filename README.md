@@ -1,2 +1,2 @@
 # think
-thinkful projects, code snippets
+Projects, code snippets
