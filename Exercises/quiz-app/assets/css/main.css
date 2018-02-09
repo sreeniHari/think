@@ -1,9 +1,5 @@
-body {
+.landing {
     text-align: center;
-}
-.startup {
-    width: 300px;
-    margin: 100px auto;
 }
 
 .startup img {
