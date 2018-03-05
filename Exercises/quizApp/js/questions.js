@@ -1,5 +1,5 @@
 let currentQuestion = 0;
-let nextQuestion = false;
+//let nextQuestion = false;
 let currentScore = 0;
 let outcomes = [];
 let randQuestions = [];
@@ -31,18 +31,13 @@ const QUESTIONWITHANSWERS = [
   correctIndex: 2
   },
   {
-   question:   "<script language=\"javascript\">\
-                function x()\
-                {\
-                  document.write(2+5+\"8\");\
-                }\
-                </script>",
-   answer:    ["258",
-               "Error",
-               "7",
-               "78"
+   question:   "DOM stands for",
+   answer:    ["Document Observer Model",
+               "Distant Object Model",
+               "Document Object Model",
+               "Discrete Object Model"
                 ],
-   AnswerIndex: 3
+   correctIndex: 2
    },
    {
     question:   "What is mean by \"this\" keyword in javascript?",
@@ -51,7 +46,7 @@ const QUESTIONWITHANSWERS = [
                 "It is variable which contains value",
                 "None of the above"
                  ],
-    AnswerIndex: 0
+    correctIndex: 0
     },
     {
      question:   "The syntax of capture events method for document object is ______________",
@@ -60,7 +55,7 @@ const QUESTIONWITHANSWERS = [
                  "captureEvents(eventType)",
                  "captureEvents(eventVal)"
                   ],
-     AnswerIndex: 2
+     correctIndex: 2
      },
      {
       question:   "The syntax of a blur method in a button object is ______________",
@@ -69,21 +64,16 @@ const QUESTIONWITHANSWERS = [
                   "Blur(value)",
                   "Blur(depth)"
                    ],
-      AnswerIndex: 0
+      correctIndex: 0
       },
       {
-       question:   "<script type=\"text/javascript\">\
-                    var s = \"9123456 or 80000?\";\
-                    var pattern = /\d{4}/;\
-                    var output = s.match(pattern);\
-                    document.write(output);\
-                     </script>",
-       answer:    ["9123",
-                   "91234",
-                   "80000",
-                   "None of the above"
+       question:   "In general, event handler is nothing but",
+       answer:    ["function",
+                   "interface",
+                   "event",
+                   "handler"
                     ],
-       AnswerIndex: 0
+       correctIndex: 0
        },
        {
         question:   "Scripting language are",
@@ -92,16 +82,16 @@ const QUESTIONWITHANSWERS = [
                     "Machine level programming language",
                     "Functional  level programming language"
                     ],
-        AnswerIndex: 0
+        correctIndex: 0
       },
          {
-          question:   "In JavaScript, Window.prompt() method return true or false value ?",
+          question:   "In JavaScript, Window.prompt() method returns",
           answer:    ["false",
                       "true",
                       "No return",
                       "Undefined"
                      ],
-          AnswerIndex: 0
+          correctIndex: 0
           }
 ];
 
@@ -164,15 +154,15 @@ function updateFeedback(outcome, correctAnswer){
     $(`input`).addClass("hideRadioButton");
 
     if(outcome){
-     $(".js-feedback-div").css("background-color" , "#00f");
+     $(".js-feedback-div").css("background-color" , "#00a769");
      $(".js-feedback-div").css("color" , "#fff");
      $(".js-feedback-div").html(`Correct Answer:${correctAnswer+1}`);
 
      currentScore++;
      $(".js-current-score").html(currentScore);
    } else if(outcome === false){
-     $(".answers").css("background-color" , "#f00");
-     $(".js-feedback-div").css("background-color" , "#f00");
+     $(".js-feedback-div").css("background-color" , "#ff0000");
+     $(".js-feedback-div").css("color" , "#fff");
      $(".js-feedback-div").html(`Correct Answer should be :${correctAnswer+1}`);
    }
 }
@@ -213,25 +203,31 @@ function submitAnswerMessage(){
 
 function nextQuestionButton(){
   $(".submit").on("click", ".next-question-btn", function(event){
-    updateQandA(currentQuestion);
-     currentQuestion++;
+      //if(currentQuestion < 9)
+      //{
+      currentQuestion++;
+      updateQandA(currentQuestion);
       renderCurrentQuestion();
     	updateSubmit("Submit");
-
       $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
 
       //update Feedback box
-      $(".js-feedback-div").css("background-color" , "#fff");
-      $(".js-feedback-div").css("color" , "#fff");
-      //unhighlight element
-      $(".answer").removeClass("highlight");
-      $(".answers").css("background-color", "#00f")
+     $(".js-feedback-div").css("background-color" , "#fff");
+     $(".js-feedback-div").css("color" , "#fff");
+     //unhighlight element
+     $(".answer").removeClass("highlight");
+     $(".answers").css("background-color", "");
+     }
+     //else {
+       //clearResults();
+      // resetQuestions();
+     //}
   });
 }
 
 //renders the current question in lower div
  function renderCurrentQuestion(){
-   console.log("Current:"+currentQuestion);
+  // console.log("Current:"+currentQuestion);
     if(currentQuestion <= 10){
       $(".js-current-question").html(currentQuestion+1);
     }else {
@@ -239,35 +235,31 @@ function nextQuestionButton(){
     }
 }
 
-function submitButton(){
+function submitButton()
+{
   let outcome = 0;
   $(".submit").on("click", ".submit-btn", event => {
 
     event.preventDefault();
-
-    if(currentQuestion < 9){
-
-      	//get user's choice and add to QANSWERS array
+    if(currentQuestion <= 10){
+      //get user's choice and add to QANSWERS array
     	var userInput = $("input[name='answer']:checked").val();
     	if(userInput === undefined){
-    	  submitAnswerMessage();
-
+        //console.log("entering undefined");
+        submitAnswerMessage();
   	  } else {
 
       QANSWERS.push(userInput);
-      outcome = compareAnswer(parseInt(QUESTIONWITHANSWERS[currentQuestion].AnswerIndex),
-                                    QANSWERS[QANSWERS.length-1]-1);
+      outcome = compareAnswer(parseInt(QUESTIONWITHANSWERS[currentQuestion].correctIndex),
+                                       QANSWERS[QANSWERS.length-1]-1);
       outcomes.push(outcome);
-      updateFeedback(outcome, QUESTIONWITHANSWERS[currentQuestion].AnswerIndex);
+      updateFeedback(outcome, QUESTIONWITHANSWERS[currentQuestion].correctIndex);
       $(".submit").html('<button type="button" value="Next Question" role="button" class="next-question-btn" aria-pressed="false"><p class="js-next-question">Next Question</p></button>');
       updateSubmit("Next Question");
-		}
-
-      }
+		 }
+    }
   });
 }
-
-
 
 function updateSubmit(state){
   if(state === "Submit"){
