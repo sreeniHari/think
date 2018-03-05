@@ -217,7 +217,7 @@ function nextQuestionButton(){
      //unhighlight element
      $(".answer").removeClass("highlight");
      $(".answers").css("background-color", "");
-     }
+     //}
      //else {
        //clearResults();
       // resetQuestions();
