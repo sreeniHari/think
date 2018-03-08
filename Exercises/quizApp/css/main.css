@@ -1,35 +1,39 @@
-body{
-  background-color:#80808029;
+body {
+  background-color: #80808029;
 }
 
-h1{
+h1 {
   font-family: 'Work Sans', sans-serif;
   text-align: center;
 }
 
-.js-logo{
+.js-logo {
   width: 200px;
-  height : 100px;
+  height: 100px;
   padding-left: 25%
 }
 
-.horizontal-line{
+.horizontal-line {
   /*border-bottom: 1px solid black;*/
-   border-top: 1px solid black;
+  border-top: 1px solid black;
 }
 
-.start-btn-div{
-  font-family: 'Work Sans' , sans-serif;
+.start-btn-div {
+  font-family: 'Work Sans', sans-serif;
   height: 50px;
   text-shadow: #FC0 1px 0 10px;
   width: auto;
 }
 
-.parentBlock{
+.parentBlock {
   text-align: center;
 }
 
-.js-feedback-div{
-    font-family: 'Work Sans', sans-serif;
-    font-size: 15px;
+.js-feedback-div {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 15px;
+}
+
+.hide{
+  display: none;
 }

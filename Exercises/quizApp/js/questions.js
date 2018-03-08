@@ -101,12 +101,9 @@ const QANSWERS = [];
 function generateRandomQuestion(questionArray) {
   var currentIndex = questionArray.length,
     temporaryValue, randomIndex;
-
   while (0 !== currentIndex) {
-
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
     temporaryValue = questionArray[currentIndex];
     questionArray[currentIndex] = questionArray[randomIndex];
     questionArray[randomIndex] = temporaryValue;
@@ -114,11 +111,7 @@ function generateRandomQuestion(questionArray) {
 }
 
 function compareAnswer(SelectedAnswer, correctAnswer) {
-  if (SelectedAnswer === correctAnswer) {
-    return true;
-  } else {
-    return false;
-  }
+  return SelectedAnswer === correctAnswer;
 }
 
 function updateQandA(index) {
@@ -171,6 +164,7 @@ function updateFeedback(outcome, correctAnswer) {
 function startQuiz() {
 
   $(".js-start-btn").click(event => {
+    ShowElements();
     $(".main-class").css("display", "inherit")
     $(".wrapper").css("height", "100%")
     generateRandomQuestion(QUESTIONWITHANSWERS);
@@ -269,12 +263,37 @@ function updateSubmit(state) {
   }
 }
 
-function handleQuiz() {
-  updateCurrentScore();
-  startQuiz();
-  nextQuestionButton();
-  submitButton();
-  updateCurrentScore();
+function hideElements() {
+  // Hide Questions, Answers, Submit and Feedback divs until quiz is started
+  $('.question').addClass('hide');
+  $('.answers').addClass('hide');
+  $('.feedback-div').addClass('hide');
+  $('.correct').addClass('hide');
+  $('.submit').addClass('hide');
+  $('.current-question-div').addClass('hide');
+  $('.current-score-div').addClass('hide');
 }
 
-$(handleQuiz);
+function ShowElements() {
+  // Hide Questions, Answers, Submit and Feedback divs until quiz is started
+  $('.question').removeClass('hide');
+  $('.answers').removeClass('hide');
+  $('.feedback-div').removeClass('hide');
+  $('.correct').removeClass('hide');
+  $('.submit').removeClass('hide');
+  $('.current-question-div').removeClass('hide');
+  $('.current-score-div').removeClass('hide');
+}
+
+
+
+  function handleQuiz() {
+    hideElements();
+    updateCurrentScore();
+    startQuiz();
+    nextQuestionButton();
+    submitButton();
+    updateCurrentScore();
+  }
+
+  $(handleQuiz);
