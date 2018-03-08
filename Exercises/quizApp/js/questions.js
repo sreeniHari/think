@@ -98,7 +98,8 @@ const QUESTIONWITHANSWERS = [{
 
 const QANSWERS = [];
 
-function generateRandomQuestion(questionArray) {
+//https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+function ShuffleQuestionArray(questionArray) {
   var currentIndex = questionArray.length,
     temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -141,23 +142,18 @@ function highlightAnswer(correctAnswer) {
   $(`.answer-${(correctAnswer+1)}`).addClass("highlight");
 }
 
-function updateFeedback(outcome, correctAnswer) {
-
-
+function updateFeedback(outcome, correctAnswer, CorrectAnswerText) {
   $(`.answer-${(correctAnswer+1)}`).addClass("highlight");
-  $(`input`).addClass("hideRadioButton");
-
+  //$("input[type=radio]").attr('disabled', true);
   if (outcome) {
-    $(".js-feedback-div").css("background-color", "#00a769");
-    $(".js-feedback-div").css("color", "#fff");
-    $(".js-feedback-div").html(`Correct Answer:${correctAnswer+1}`);
+    $('.js-feedback-div').addClass("highlightCorrectAnswer");
+    $(".js-feedback-div").html(`Correct Answer: ${CorrectAnswerText}`);
 
     currentScore++;
     $(".js-current-score").html(currentScore);
   } else if (outcome === false) {
-    $(".js-feedback-div").css("background-color", "#ff0000");
-    $(".js-feedback-div").css("color", "#fff");
-    $(".js-feedback-div").html(`Correct Answer should be :${correctAnswer+1}`);
+    $('.js-feedback-div').addClass("highlightWrongAnswer");
+    $(".js-feedback-div").html(`Correct Answer should be : ${CorrectAnswerText}`);
   }
 }
 
@@ -165,13 +161,8 @@ function startQuiz() {
 
   $(".js-start-btn").click(event => {
     ShowElements();
-    $(".main-class").css("display", "inherit")
-    $(".wrapper").css("height", "100%")
-    generateRandomQuestion(QUESTIONWITHANSWERS);
+    ShuffleQuestionArray(QUESTIONWITHANSWERS);
     updateQandA(currentQuestion);
-    //show radio buttons
-    $("input").css("display", "inline");
-
   });
 }
 
@@ -180,7 +171,7 @@ function resetQuestions() {
   //reset the questions
   //clear QANSWERS array
   QANSWERS.splice(0, QANSWERS.length);
-  generateRandomQuestion(QUESTIONWITHANSWERS);
+  ShuffleQuestionArray(QUESTIONWITHANSWERS);
   updateQandA(currentQuestion);
   clearResults();
 }
@@ -198,8 +189,7 @@ function submitAnswerMessage() {
 
 function nextQuestionButton() {
   $(".submit").on("click", ".next-question-btn", function(event) {
-    //if(currentQuestion < 9)
-    //{
+   //$("input[type=radio]").attr('disabled', false);
     currentQuestion++;
     updateQandA(currentQuestion);
     renderCurrentQuestion();
@@ -212,11 +202,6 @@ function nextQuestionButton() {
     //unhighlight element
     $(".answer").removeClass("highlight");
     $(".answers").css("background-color", "");
-    //}
-    //else {
-    //clearResults();
-    // resetQuestions();
-    //}
   });
 }
 
@@ -233,21 +218,21 @@ function renderCurrentQuestion() {
 function submitButton() {
   let outcome = 0;
   $(".submit").on("click", ".submit-btn", event => {
-
     event.preventDefault();
     if (currentQuestion <= 10) {
       //get user's choice and add to QANSWERS array
       var userInput = $("input[name='answer']:checked").val();
       if (userInput === undefined) {
-        //console.log("entering undefined");
         submitAnswerMessage();
       } else {
-
         QANSWERS.push(userInput);
         outcome = compareAnswer(parseInt(QUESTIONWITHANSWERS[currentQuestion].correctIndex),
           QANSWERS[QANSWERS.length - 1] - 1);
         outcomes.push(outcome);
-        updateFeedback(outcome, QUESTIONWITHANSWERS[currentQuestion].correctIndex);
+        var correctAnsIndex = QUESTIONWITHANSWERS[currentQuestion].correctIndex;
+        updateFeedback(outcome,
+          correctAnsIndex,
+          QUESTIONWITHANSWERS[currentQuestion].answer[correctAnsIndex]);
         $(".submit").html('<button type="button" value="Next Question" role="button" class="next-question-btn" aria-pressed="false"><p class="js-next-question">Next Question</p></button>');
         updateSubmit("Next Question");
       }
@@ -285,15 +270,13 @@ function ShowElements() {
   $('.current-score-div').removeClass('hide');
 }
 
+function handleQuiz() {
+  hideElements();
+  updateCurrentScore();
+  startQuiz();
+  nextQuestionButton();
+  submitButton();
+  updateCurrentScore();
+}
 
-
-  function handleQuiz() {
-    hideElements();
-    updateCurrentScore();
-    startQuiz();
-    nextQuestionButton();
-    submitButton();
-    updateCurrentScore();
-  }
-
-  $(handleQuiz);
+$(handleQuiz);

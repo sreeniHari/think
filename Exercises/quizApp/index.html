@@ -15,14 +15,15 @@
     <img class="js-logo" src="https://code.support/wp-content/uploads/2016/04/js.png" alt="Javascript">
     <div class="horizontal-line">
       <h1> Test your Javascript skills. Are you ready? </h1>
-      <div class="start-btn-div"><button type="submit" value="Start" role="button" class="js-start-btn">START</button></div>
+      <div class="start-btn-div">
+        <button type="submit" value="Start" role="button" class="js-start-btn">START</button></div>
       <div class="question js-question"></div>
     </div>
     <main role="main" class="main-class">
       <div class="answers">
         <form action="#" method="post">
-          <fieldset name="answers" style="padding: 0">
-            <legend>Answers:</legend>
+          <fieldset name="answers" class="js-answers">
+            <legend>  Answers:</legend>
             <input type="radio" name="answer" id="answer-1" required value="1" />
             <label for="answer-1" class="answer answer-1"></label><br>
             <input type="radio" name="answer" id="answer-2" value="2" />
@@ -38,13 +39,13 @@
         <p class="correct"><span class="js-feedback"></span></p>
       </div>
       <div class="submit">
-        <button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>
+        <button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false">Submit</button>
       </div>
       <div class="current-question-div">
-        <p>Current Question<span class="js-current-question">1</span> of 10</p>
+        <p>Current Question:<span class="js-current-question"> 1</span> of 10</p>
       </div>
       <div class="current-score-div">
-        <p>Current Score <span class="js-current-score">0</span> of 10</p>
+        <p>Current Score:<span class="js-current-score"> 0</span> of 10</p>
       </div>
     </main>
   </div>
