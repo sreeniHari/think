@@ -144,7 +144,7 @@ function highlightAnswer(correctAnswer) {
 
 function updateFeedback(outcome, correctAnswer, CorrectAnswerText) {
   $(`.answer-${(correctAnswer+1)}`).addClass("highlight");
-  //$("input[type=radio]").attr('disabled', true);
+  $("input[type=radio]").attr('disabled', true);
   if (outcome) {
     $('.js-feedback-div').addClass("highlightCorrectAnswer");
     $(".js-feedback-div").html(`Correct Answer: ${CorrectAnswerText}`);
@@ -163,6 +163,7 @@ function startQuiz() {
     ShowElements();
     ShuffleQuestionArray(QUESTIONWITHANSWERS);
     updateQandA(currentQuestion);
+    $(".js-start-btn").attr('disabled', true);
   });
 }
 
@@ -189,7 +190,7 @@ function submitAnswerMessage() {
 
 function nextQuestionButton() {
   $(".submit").on("click", ".next-question-btn", function(event) {
-   //$("input[type=radio]").attr('disabled', false);
+   $("input[type=radio]").attr('disabled', false);
     currentQuestion++;
     updateQandA(currentQuestion);
     renderCurrentQuestion();
