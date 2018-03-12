@@ -98,19 +98,6 @@ const QUESTIONWITHANSWERS = [{
 
 const QANSWERS = [];
 
-//https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-function ShuffleQuestionArray(questionArray) {
-  var currentIndex = questionArray.length,
-    temporaryValue, randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    temporaryValue = questionArray[currentIndex];
-    questionArray[currentIndex] = questionArray[randomIndex];
-    questionArray[randomIndex] = temporaryValue;
-  }
-}
-
 function compareAnswer(SelectedAnswer, correctAnswer) {
   return SelectedAnswer === correctAnswer;
 }
@@ -135,7 +122,7 @@ function updateQandA(index) {
 
 function updateCurrentScore(score) {
   //Function that updates Current Score
-  $(".feedback-div").html(score)
+  $(".feedback").html(score)
 }
 
 function highlightAnswer(correctAnswer) {
@@ -145,25 +132,29 @@ function highlightAnswer(correctAnswer) {
 function updateFeedback(outcome, correctAnswer, CorrectAnswerText) {
   $(`.answer-${(correctAnswer+1)}`).addClass("highlight");
   $("input[type=radio]").attr('disabled', true);
+  $('.feedback').removeClass("highlightNoSelection");
   if (outcome) {
-    $('.js-feedback-div').addClass("highlightCorrectAnswer");
-    $(".js-feedback-div").html(`Correct Answer: ${CorrectAnswerText}`);
+    $('.feedback').removeClass("highlightWrongAnswer");
+    $('.feedback').addClass("highlightCorrectAnswer");
+    $(".feedback").html(`Correct Answer: ${CorrectAnswerText}`);
 
     currentScore++;
     $(".js-current-score").html(currentScore);
   } else if (outcome === false) {
-    $('.js-feedback-div').addClass("highlightWrongAnswer");
-    $(".js-feedback-div").html(`Correct Answer should be : ${CorrectAnswerText}`);
+    $('.feedback').removeClass("highlightCorrectAnswer");
+    $('.feedback').addClass("highlightWrongAnswer");
+    $(".feedback").html(`Incorrect Answer ; Correct Answer should be : ${CorrectAnswerText}`);
   }
 }
 
 function startQuiz() {
 
   $(".js-start-btn").click(event => {
-    ShowElements();
-    ShuffleQuestionArray(QUESTIONWITHANSWERS);
+    showElements();
+    currentQuestion = 0;
+    renderCurrentQuestion();
     updateQandA(currentQuestion);
-    $(".js-start-btn").attr('disabled', true);
+    $('.start-btn-div').addClass("hide");
   });
 }
 
@@ -171,8 +162,8 @@ function resetQuestions() {
   //click try again to restart game
   //reset the questions
   //clear QANSWERS array
-  QANSWERS.splice(0, QANSWERS.length);
-  ShuffleQuestionArray(QUESTIONWITHANSWERS);
+  QANSWERS = [];
+  currentQuestion = 0;
   updateQandA(currentQuestion);
   clearResults();
 }
@@ -183,26 +174,34 @@ function clearResults() {
 }
 
 function submitAnswerMessage() {
-  $(".js-feedback-div").css("background-color", "#ff0");
-  $(".js-feedback-div").css("color", "#000");
-  $(".js-feedback-div").html("<p>Please make a selection</p>");
+  $(".feedback").html("<p>Please make a selection</p>");
+  $('.feedback').addClass('highlightNoSelection');
 }
 
 function nextQuestionButton() {
   $(".submit").on("click", ".next-question-btn", function(event) {
    $("input[type=radio]").attr('disabled', false);
+    //$('.feedback').addClass('hide');
     currentQuestion++;
+    if(currentQuestion <= 9)
+    {
     updateQandA(currentQuestion);
     renderCurrentQuestion();
     updateSubmit("Submit");
     $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
 
-    //update Feedback box
-    $(".js-feedback-div").css("background-color", "#fff");
-    $(".js-feedback-div").css("color", "#fff");
+    $('.feedback').addClass("hide");
+
     //unhighlight element
     $(".answer").removeClass("highlight");
     $(".answers").css("background-color", "");
+  }
+  else {
+    alert("You have completed the Quiz challenge. Press Start to try again!!");
+    $('.start-btn-div').removeClass("hide");
+    hideElements();
+    resetQuestions();
+  }
   });
 }
 
@@ -220,7 +219,8 @@ function submitButton() {
   let outcome = 0;
   $(".submit").on("click", ".submit-btn", event => {
     event.preventDefault();
-    if (currentQuestion <= 10) {
+      $('.feedback').removeClass('hide');
+      if (currentQuestion <= 10) {
       //get user's choice and add to QANSWERS array
       var userInput = $("input[name='answer']:checked").val();
       if (userInput === undefined) {
@@ -253,18 +253,18 @@ function hideElements() {
   // Hide Questions, Answers, Submit and Feedback divs until quiz is started
   $('.question').addClass('hide');
   $('.answers').addClass('hide');
-  $('.feedback-div').addClass('hide');
+  $('.feedback').addClass('hide');
   $('.correct').addClass('hide');
   $('.submit').addClass('hide');
   $('.current-question-div').addClass('hide');
   $('.current-score-div').addClass('hide');
 }
 
-function ShowElements() {
+function showElements() {
   // Hide Questions, Answers, Submit and Feedback divs until quiz is started
   $('.question').removeClass('hide');
   $('.answers').removeClass('hide');
-  $('.feedback-div').removeClass('hide');
+  $('.feedback').removeClass('hide');
   $('.correct').removeClass('hide');
   $('.submit').removeClass('hide');
   $('.current-question-div').removeClass('hide');

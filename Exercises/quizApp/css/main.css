@@ -1,11 +1,11 @@
 body {
   background-color: #80808029;
-  font-family: 'Work Sans', sans-serif;
+  font-family:Verdana;
   font-size: 20px;
 }
 
 h1 {
-  font-family: 'Work Sans', sans-serif;
+  font-family: Verdana;
   text-align: center;
   padding-bottom: 10px;
 }
@@ -27,7 +27,7 @@ h1 {
 }
 
 .js-start-btn, .submit-btn, .next-question-btn {
-  font-family: 'Work Sans', sans-serif;
+  font-family: Verdana;
   font-size: 15px;
   height: 50px;
   width: auto;
@@ -38,8 +38,8 @@ h1 {
   text-align: center;
 }
 
-.js-feedback-div {
-  font-family: 'Work Sans', sans-serif;
+.feedback {
+  font-family: Verdana;
   font-size: 15px;
   padding: 10px;
 }
@@ -78,4 +78,8 @@ h1 {
 .highlightCorrectAnswer{
 background-color:#00a769;
 color:#fff;
+}
+.highlightNoSelection{
+  background-color:#ff0;
+  color:#000;
 }
