@@ -19,79 +19,79 @@ const QUESTIONWITHANSWERS = [{
       "user_pref(\"javascript.console.open_on_error \", false);"
     ],
     correctIndex: 0
-  }//,
-  // {
-  //   question: "Choose the client-side JavaScript object",
-  //   answer: ["Database",
-  //     "Cursor",
-  //     "Client",
-  //     "FileUpLoad"
-  //   ],
-  //   correctIndex: 2
-  // },
-  // {
-  //   question: "DOM stands for",
-  //   answer: ["Document Observer Model",
-  //     "Distant Object Model",
-  //     "Document Object Model",
-  //     "Discrete Object Model"
-  //   ],
-  //   correctIndex: 2
-  // },
-  // {
-  //   question: "What is mean by \"this\" keyword in javascript?",
-  //   answer: ["It refers current object",
-  //     "It referes previous object",
-  //     "It is variable which contains value",
-  //     "None of the above"
-  //   ],
-  //   correctIndex: 0
-  // },
-  // {
-  //   question: "The syntax of capture events method for document object is ______________",
-  //   answer: ["captureEvents()",
-  //     "captureEvents(args eventType)",
-  //     "captureEvents(eventType)",
-  //     "captureEvents(eventVal)"
-  //   ],
-  //   correctIndex: 2
-  // },
-  // {
-  //   question: "The syntax of a blur method in a button object is ______________",
-  //   answer: ["Blur()",
-  //     "Blur(contrast)",
-  //     "Blur(value)",
-  //     "Blur(depth)"
-  //   ],
-  //   correctIndex: 0
-  // },
-  // {
-  //   question: "In general, event handler is nothing but",
-  //   answer: ["function",
-  //     "interface",
-  //     "event",
-  //     "handler"
-  //   ],
-  //   correctIndex: 0
-  // },
-  // {
-  //   question: "Scripting language are",
-  //   answer: ["High Level Programming language",
-  //     "Assembly Level programming language",
-  //     "Machine level programming language",
-  //     "Functional  level programming language"
-  //   ],
-  //   correctIndex: 0
-  // },
-  // {
-  //   question: "In JavaScript, Window.prompt() method returns",
-  //   answer: ["false",
-  //     "true",
-  //     "No return",
-  //     "Undefined"
-  //   ],
-  //   correctIndex: 0
-  // }
+  },
+  {
+    question: "Choose the client-side JavaScript object",
+    answer: ["Database",
+      "Cursor",
+      "Client",
+      "FileUpLoad"
+    ],
+    correctIndex: 2
+  },
+  {
+    question: "DOM stands for",
+    answer: ["Document Observer Model",
+      "Distant Object Model",
+      "Document Object Model",
+      "Discrete Object Model"
+    ],
+    correctIndex: 2
+  },
+  {
+    question: "What is mean by \"this\" keyword in javascript?",
+    answer: ["It refers current object",
+      "It referes previous object",
+      "It is variable which contains value",
+      "None of the above"
+    ],
+    correctIndex: 0
+  },
+  {
+    question: "The syntax of capture events method for document object is ______________",
+    answer: ["captureEvents()",
+      "captureEvents(args eventType)",
+      "captureEvents(eventType)",
+      "captureEvents(eventVal)"
+    ],
+    correctIndex: 2
+  },
+  {
+    question: "The syntax of a blur method in a button object is ______________",
+    answer: ["Blur()",
+      "Blur(contrast)",
+      "Blur(value)",
+      "Blur(depth)"
+    ],
+    correctIndex: 0
+  },
+  {
+    question: "In general, event handler is nothing but",
+    answer: ["function",
+      "interface",
+      "event",
+      "handler"
+    ],
+    correctIndex: 0
+  },
+  {
+    question: "Scripting language are",
+    answer: ["High Level Programming language",
+      "Assembly Level programming language",
+      "Machine level programming language",
+      "Functional  level programming language"
+    ],
+    correctIndex: 0
+  },
+  {
+    question: "In JavaScript, Window.prompt() method returns",
+    answer: ["false",
+      "true",
+      "No return",
+      "Undefined"
+    ],
+    correctIndex: 0
+  }
 ];
 
 const QANSWERS = [];
@@ -150,15 +150,13 @@ function resetAnswerBackground() {
 
 function startQuiz() {
   $(".js-start-btn").click(event => {
-    updateSubmit("Submit");
-    resetAnswerBackground();
-    clearResults();
+    showElements();
     currentQuestion = 0;
     currentScore = 0;
     updateCurrentScore();
     renderCurrentQuestion();
     updateQandA(currentQuestion);
-    showElements();
+    clearResultsandFeedback();
     $('.start-btn-div').addClass("hide");
   });
 }
@@ -170,15 +168,16 @@ function resetQuestions() {
   QANSWERS.length = 0;
   currentQuestion = 0;
   updateQandA(currentQuestion);
-  clearResults();
   updateSubmit("Submit");
+  clearResultsandFeedback();
   resetAnswerBackground();
 }
 
-function clearResults() {
+function clearResultsandFeedback() {
   $(".js-result-color").css("background-color", "#fff");
   $(".js-results").html("");
-  $('.feedback').addClass("hide");
+  $(".feedback").html("");
+  $('.feedback').addClass('hide');
 }
 
 function submitAnswerMessage() {
@@ -201,6 +200,8 @@ function nextQuestionButton() {
     } else {
       alert("You have completed the Quiz challenge. Press Start to try again!!");
       resetQuestions();
+      $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
+      $('.feedback').addClass("hide");
       $('.start-btn-div').removeClass("hide");
       hideElements();
     }
