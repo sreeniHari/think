@@ -2,7 +2,6 @@ let currentQuestion = 0;
 //let nextQuestion = false;
 let currentScore = 0;
 let outcomes = [];
-let randQuestions = [];
 const QUESTIONWITHANSWERS = [{
     question: "Which best explains getSelection()?",
     answer: ["Returns the VALUE of a selected OPTION.",
@@ -20,83 +19,83 @@ const QUESTIONWITHANSWERS = [{
       "user_pref(\"javascript.console.open_on_error \", false);"
     ],
     correctIndex: 0
-  },
-  {
-    question: "Choose the client-side JavaScript object",
-    answer: ["Database",
-      "Cursor",
-      "Client",
-      "FileUpLoad"
-    ],
-    correctIndex: 2
-  },
-  {
-    question: "DOM stands for",
-    answer: ["Document Observer Model",
-      "Distant Object Model",
-      "Document Object Model",
-      "Discrete Object Model"
-    ],
-    correctIndex: 2
-  },
-  {
-    question: "What is mean by \"this\" keyword in javascript?",
-    answer: ["It refers current object",
-      "It referes previous object",
-      "It is variable which contains value",
-      "None of the above"
-    ],
-    correctIndex: 0
-  },
-  {
-    question: "The syntax of capture events method for document object is ______________",
-    answer: ["captureEvents()",
-      "captureEvents(args eventType)",
-      "captureEvents(eventType)",
-      "captureEvents(eventVal)"
-    ],
-    correctIndex: 2
-  },
-  {
-    question: "The syntax of a blur method in a button object is ______________",
-    answer: ["Blur()",
-      "Blur(contrast)",
-      "Blur(value)",
-      "Blur(depth)"
-    ],
-    correctIndex: 0
-  },
-  {
-    question: "In general, event handler is nothing but",
-    answer: ["function",
-      "interface",
-      "event",
-      "handler"
-    ],
-    correctIndex: 0
-  },
-  {
-    question: "Scripting language are",
-    answer: ["High Level Programming language",
-      "Assembly Level programming language",
-      "Machine level programming language",
-      "Functional  level programming language"
-    ],
-    correctIndex: 0
-  },
-  {
-    question: "In JavaScript, Window.prompt() method returns",
-    answer: ["false",
-      "true",
-      "No return",
-      "Undefined"
-    ],
-    correctIndex: 0
-  }
+  }//,
+  // {
+  //   question: "Choose the client-side JavaScript object",
+  //   answer: ["Database",
+  //     "Cursor",
+  //     "Client",
+  //     "FileUpLoad"
+  //   ],
+  //   correctIndex: 2
+  // },
+  // {
+  //   question: "DOM stands for",
+  //   answer: ["Document Observer Model",
+  //     "Distant Object Model",
+  //     "Document Object Model",
+  //     "Discrete Object Model"
+  //   ],
+  //   correctIndex: 2
+  // },
+  // {
+  //   question: "What is mean by \"this\" keyword in javascript?",
+  //   answer: ["It refers current object",
+  //     "It referes previous object",
+  //     "It is variable which contains value",
+  //     "None of the above"
+  //   ],
+  //   correctIndex: 0
+  // },
+  // {
+  //   question: "The syntax of capture events method for document object is ______________",
+  //   answer: ["captureEvents()",
+  //     "captureEvents(args eventType)",
+  //     "captureEvents(eventType)",
+  //     "captureEvents(eventVal)"
+  //   ],
+  //   correctIndex: 2
+  // },
+  // {
+  //   question: "The syntax of a blur method in a button object is ______________",
+  //   answer: ["Blur()",
+  //     "Blur(contrast)",
+  //     "Blur(value)",
+  //     "Blur(depth)"
+  //   ],
+  //   correctIndex: 0
+  // },
+  // {
+  //   question: "In general, event handler is nothing but",
+  //   answer: ["function",
+  //     "interface",
+  //     "event",
+  //     "handler"
+  //   ],
+  //   correctIndex: 0
+  // },
+  // {
+  //   question: "Scripting language are",
+  //   answer: ["High Level Programming language",
+  //     "Assembly Level programming language",
+  //     "Machine level programming language",
+  //     "Functional  level programming language"
+  //   ],
+  //   correctIndex: 0
+  // },
+  // {
+  //   question: "In JavaScript, Window.prompt() method returns",
+  //   answer: ["false",
+  //     "true",
+  //     "No return",
+  //     "Undefined"
+  //   ],
+  //   correctIndex: 0
+  // }
 ];
 
-
 const QANSWERS = [];
+const NOOFQUESTIONS = QUESTIONWITHANSWERS.length;
 
 function compareAnswer(SelectedAnswer, correctAnswer) {
   return SelectedAnswer === correctAnswer;
@@ -106,7 +105,6 @@ function updateQandA(index) {
 
   let question = QUESTIONWITHANSWERS[index].question;
   let answer = [];
-
 
   for (let i = 0; i < 4; i++) {
     answer[i] = QUESTIONWITHANSWERS[index].answer[i];
@@ -120,9 +118,8 @@ function updateQandA(index) {
   $("input[name='answer']").prop('checked', false);
 }
 
-function updateCurrentScore(score) {
-  //Function that updates Current Score
-  $(".feedback").html(score)
+function updateCurrentScore() {
+  $(".js-current-score").html(currentScore);
 }
 
 function highlightAnswer(correctAnswer) {
@@ -137,9 +134,8 @@ function updateFeedback(outcome, correctAnswer, CorrectAnswerText) {
     $('.feedback').removeClass("highlightWrongAnswer");
     $('.feedback').addClass("highlightCorrectAnswer");
     $(".feedback").html(`Correct Answer: ${CorrectAnswerText}`);
-
     currentScore++;
-    $(".js-current-score").html(currentScore);
+    updateCurrentScore()
   } else if (outcome === false) {
     $('.feedback').removeClass("highlightCorrectAnswer");
     $('.feedback').addClass("highlightWrongAnswer");
@@ -147,13 +143,22 @@ function updateFeedback(outcome, correctAnswer, CorrectAnswerText) {
   }
 }
 
-function startQuiz() {
+function resetAnswerBackground() {
+  $(".answer").removeClass("highlight");
+  $(".answers").css("background-color", "");
+}
 
+function startQuiz() {
   $(".js-start-btn").click(event => {
-    showElements();
+    updateSubmit("Submit");
+    resetAnswerBackground();
+    clearResults();
     currentQuestion = 0;
+    currentScore = 0;
+    updateCurrentScore();
     renderCurrentQuestion();
     updateQandA(currentQuestion);
+    showElements();
     $('.start-btn-div').addClass("hide");
   });
 }
@@ -162,15 +167,18 @@ function resetQuestions() {
   //click try again to restart game
   //reset the questions
   //clear QANSWERS array
-  QANSWERS = [];
+  QANSWERS.length = 0;
   currentQuestion = 0;
   updateQandA(currentQuestion);
   clearResults();
+  updateSubmit("Submit");
+  resetAnswerBackground();
 }
 
 function clearResults() {
   $(".js-result-color").css("background-color", "#fff");
   $(".js-results").html("");
+  $('.feedback').addClass("hide");
 }
 
 function submitAnswerMessage() {
@@ -180,35 +188,29 @@ function submitAnswerMessage() {
 
 function nextQuestionButton() {
   $(".submit").on("click", ".next-question-btn", function(event) {
-   $("input[type=radio]").attr('disabled', false);
+    $("input[type=radio]").attr('disabled', false);
     //$('.feedback').addClass('hide');
     currentQuestion++;
-    if(currentQuestion <= 9)
-    {
-    updateQandA(currentQuestion);
-    renderCurrentQuestion();
     updateSubmit("Submit");
-    $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
-
-    $('.feedback').addClass("hide");
-
-    //unhighlight element
-    $(".answer").removeClass("highlight");
-    $(".answers").css("background-color", "");
-  }
-  else {
-    alert("You have completed the Quiz challenge. Press Start to try again!!");
-    $('.start-btn-div').removeClass("hide");
-    hideElements();
-    resetQuestions();
-  }
+    if (currentQuestion <= NOOFQUESTIONS - 1) {
+      updateQandA(currentQuestion);
+      renderCurrentQuestion();
+      $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
+      $('.feedback').addClass("hide");
+      resetAnswerBackground();
+    } else {
+      alert("You have completed the Quiz challenge. Press Start to try again!!");
+      resetQuestions();
+      $('.start-btn-div').removeClass("hide");
+      hideElements();
+    }
   });
 }
 
 //renders the current question in lower div
 function renderCurrentQuestion() {
   // console.log("Current:"+currentQuestion);
-  if (currentQuestion <= 10) {
+  if (currentQuestion <= NOOFQUESTIONS) {
     $(".js-current-question").html(currentQuestion + 1);
   } else {
     $(".js-current-question").html(currentQuestion);
@@ -219,8 +221,8 @@ function submitButton() {
   let outcome = 0;
   $(".submit").on("click", ".submit-btn", event => {
     event.preventDefault();
-      $('.feedback').removeClass('hide');
-      if (currentQuestion <= 10) {
+    $('.feedback').removeClass('hide');
+    if (currentQuestion <= NOOFQUESTIONS) {
       //get user's choice and add to QANSWERS array
       var userInput = $("input[name='answer']:checked").val();
       if (userInput === undefined) {
