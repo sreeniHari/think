@@ -154,7 +154,7 @@ function startQuiz() {
     currentQuestion = 0;
     currentScore = 0;
     updateCurrentScore();
-    renderCurrentQuestion();
+    updateCurrentQuestionCount();
     renderQuestion(currentQuestion);
     clearResultsandFeedback();
     $('.startButton').addClass("hide");
@@ -162,13 +162,10 @@ function startQuiz() {
 }
 
 function resetQuestions() {
-  //click try again to restart game
-  //reset the questions
-  //clear QANSWERS array
   QANSWERS.length = 0;
   currentQuestion = 0;
   renderQuestion(currentQuestion);
-  updateSubmit("Submit");
+  updateSubmitButtonText("Submit");
   clearResultsandFeedback();
   resetAnswerBackground();
 }
@@ -180,37 +177,38 @@ function clearResultsandFeedback() {
   $('.feedback').addClass('hide');
 }
 
-function submitAnswerMessage() {
+function displayNoSelection() {
   $(".feedback").html("<p>Please make a selection</p>");
   $('.feedback').addClass('highlightNoSelection');
 }
 
-function nextQuestionButton() {
+function processNextButton() {
   $(".submit").on("click", ".next-question-btn", function(event) {
     $("input[type=radio]").attr('disabled', false);
-    //$('.feedback').addClass('hide');
     currentQuestion++;
-    updateSubmit("Submit");
+    updateSubmitButtonText("Submit");
     if (currentQuestion <= NOOFQUESTIONS - 1) {
       renderQuestion(currentQuestion);
-      renderCurrentQuestion();
+      updateCurrentQuestionCount();
       $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
       $('.feedback').addClass("hide");
       resetAnswerBackground();
     } else {
-      alert("You have completed the Quiz challenge. Press Start to try again!!");
-      resetQuestions();
-      $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
-      $('.feedback').addClass("hide");
-      $('.startButton').removeClass("hide");
-      hideElements();
+      restartQuiz();
     }
   });
 }
 
-//renders the current question in lower div
-function renderCurrentQuestion() {
-  // console.log("Current:"+currentQuestion);
+function restartQuiz() {
+  alert("You have completed the Quiz challenge. Press Start to try again!!");
+  resetQuestions();
+  $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
+  $('.feedback').addClass("hide");
+  $('.startButton').removeClass("hide");
+  hideElements();
+}
+
+function updateCurrentQuestionCount() {
   if (currentQuestion <= NOOFQUESTIONS) {
     $(".js-current-question").html(currentQuestion + 1);
   } else {
@@ -218,36 +216,35 @@ function renderCurrentQuestion() {
   }
 }
 
-function submitButton() {
+function processSubmitButton() {
   let outcome = 0;
   $(".submit").on("click", ".submit-btn", event => {
     event.preventDefault();
     $('.feedback').removeClass('hide');
     if (currentQuestion <= NOOFQUESTIONS) {
-      //get user's choice and add to QANSWERS array
       var userInput = $("input[name='answer']:checked").val();
       if (userInput === undefined) {
-        submitAnswerMessage();
+        displayNoSelection();
       } else {
         QANSWERS.push(userInput);
         outcome = compareAnswer(parseInt(QUESTIONWITHANSWERS[currentQuestion].correctIndex),
-          QANSWERS[QANSWERS.length - 1] - 1);
+                                QANSWERS[QANSWERS.length - 1] - 1);
         outcomes.push(outcome);
         var correctAnsIndex = QUESTIONWITHANSWERS[currentQuestion].correctIndex;
         updateFeedback(outcome,
           correctAnsIndex,
           QUESTIONWITHANSWERS[currentQuestion].answer[correctAnsIndex]);
         $(".submit").html('<button type="button" value="Next Question" role="button" class="next-question-btn" aria-pressed="false"><p class="js-next-question">Next Question</p></button>');
-        updateSubmit("Next Question");
+        updateSubmitButtonText("Next Question");
       }
     }
   });
 }
 
-function updateSubmit(state) {
-  if (state === "Submit") {
+function updateSubmitButtonText(buttonText) {
+  if (buttonText === "Submit") {
     $(".js-submit-text").html("<p>Submit</p>");
-  } else if (state === "Next Question") {
+  } else if (buttonText === "Next Question") {
     $(".js-submit-text").html("<p>Next Question</p>");
   }
 }
@@ -278,8 +275,8 @@ function InitQuiz() {
   hideElements();
   updateCurrentScore();
   startQuiz();
-  nextQuestionButton();
-  submitButton();
+  processNextButton();
+  processSubmitButton();
   updateCurrentScore();
 }
 

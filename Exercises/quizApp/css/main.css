@@ -45,13 +45,9 @@ h1 {
   text-shadow: #FC0 1px 0 10px;
 }
 
-.parentBlock {
-  text-align: center;
-}
-
 .feedback {
   font-family: Verdana;
-  font-size: 15px;
+  font-size: 12px;
   padding: 10px;
 }
 
