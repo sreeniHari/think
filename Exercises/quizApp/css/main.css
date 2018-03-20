@@ -1,26 +1,37 @@
 body {
   background-color: #80808029;
-  font-family:Verdana;
-  font-size: 20px;
+  font-family: Verdana;
+  font-size: 15px;
+}
+
+body.header {
+  vertical-align: center;
+  float: left;
+  margin: auto;
 }
 
 h1 {
   font-family: Verdana;
+  font-size: 15px;
   text-align: center;
-  padding-bottom: 10px;
+}
+
+.answers-list {
+  font-family: Verdana;
+  font-size: 15px;
+  text-align: left;
 }
 
 .js-logo {
   width: 200px;
   height: 100px;
-  padding-left: 25%
 }
 
 .horizontal-line {
   border-top: 1px solid black;
 }
 
-.start-btn-div {
+.startButton {
   padding-bottom: 10px;
   margin: auto;
   text-align: center;
@@ -70,21 +81,17 @@ h1 {
   display: none;
 }
 
-.highlightWrongAnswer{
+.highlightWrongAnswer {
   background-color: #ff0000;
   color: #fff;
 }
 
-.highlightCorrectAnswer{
-background-color:#00a769;
-color:#fff;
-}
-.highlightNoSelection{
-  background-color:#ff0;
-  color:#000;
+.highlightCorrectAnswer {
+  background-color: #00a769;
+  color: #fff;
 }
 
-.highlightStartQuiz{
-  background-color: #80808029;
+.highlightNoSelection {
+  background-color: #ff0;
   color: #000;
 }

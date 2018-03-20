@@ -101,7 +101,7 @@ function compareAnswer(SelectedAnswer, correctAnswer) {
   return SelectedAnswer === correctAnswer;
 }
 
-function updateQandA(index) {
+function renderQuestion(index) {
 
   let question = QUESTIONWITHANSWERS[index].question;
   let answer = [];
@@ -109,7 +109,7 @@ function updateQandA(index) {
   for (let i = 0; i < 4; i++) {
     answer[i] = QUESTIONWITHANSWERS[index].answer[i];
   }
-  $(".js-question").html(`<p>${question}</p>`);
+  $(".question").html(`<p>${question}</p>`);
   for (let i = 0; i < 4; i++) {
     let answerItem = "answer-" + (i + 1);
     $(`label[for=${answerItem}]`).html(` ${answer[i]}`);
@@ -155,9 +155,9 @@ function startQuiz() {
     currentScore = 0;
     updateCurrentScore();
     renderCurrentQuestion();
-    updateQandA(currentQuestion);
+    renderQuestion(currentQuestion);
     clearResultsandFeedback();
-    $('.start-btn-div').addClass("hide");
+    $('.startButton').addClass("hide");
   });
 }
 
@@ -167,7 +167,7 @@ function resetQuestions() {
   //clear QANSWERS array
   QANSWERS.length = 0;
   currentQuestion = 0;
-  updateQandA(currentQuestion);
+  renderQuestion(currentQuestion);
   updateSubmit("Submit");
   clearResultsandFeedback();
   resetAnswerBackground();
@@ -192,7 +192,7 @@ function nextQuestionButton() {
     currentQuestion++;
     updateSubmit("Submit");
     if (currentQuestion <= NOOFQUESTIONS - 1) {
-      updateQandA(currentQuestion);
+      renderQuestion(currentQuestion);
       renderCurrentQuestion();
       $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
       $('.feedback').addClass("hide");
@@ -202,7 +202,7 @@ function nextQuestionButton() {
       resetQuestions();
       $(".submit").html('<button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false"><p class="js-submit-text">Submit</p></button>');
       $('.feedback').addClass("hide");
-      $('.start-btn-div').removeClass("hide");
+      $('.startButton').removeClass("hide");
       hideElements();
     }
   });
@@ -274,7 +274,7 @@ function showElements() {
   $('.current-score-div').removeClass('hide');
 }
 
-function handleQuiz() {
+function InitQuiz() {
   hideElements();
   updateCurrentScore();
   startQuiz();
@@ -283,4 +283,4 @@ function handleQuiz() {
   updateCurrentScore();
 }
 
-$(handleQuiz);
+$(InitQuiz);
