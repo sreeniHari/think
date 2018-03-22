@@ -11,14 +11,18 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
   <script src="js/questions.js"></script>
 </head>
+
 <body>
   <header role="banner">
-    <img class="js-logo" src="https://code.support/wp-content/uploads/2016/04/js.png" alt="Javascript">
+    <img class="js-logo" src="https://code.support/wp-content/uploads/2016/04/js.png" alt="altjs">
     <div class="horizontal-line">
-      <h1> Test your Javascript skills. Are you ready? </h1>
     </div>
+      <h1>Test your Javascript skills...Are you ready? </h1>
     <div class="startButton">
       <button type="submit" value="Start" role="button" class="js-start-btn">START</button></div>
+      <div class="feedback">
+        <p class="correct"><span class="js-feedback"></span></p>
+      </div>
     <div class="question"></div>
   </header>
   <main role="main">
@@ -38,26 +42,24 @@
             <input type="radio" name="answer" id="answer-3" value="3" />
             <label for="answer-3" class="answer answer-3"></label>
           </li>
-          </li>
+          <li>
           <input type="radio" name="answer" id="answer-4" value="4" />
           <label for="answer-4" class="answer answer-4"></label>
-          </li>
+        </li>
+      </ul>
       </form>
     </div>
     <footer role="contentinfo">
-    <div class="feedback">
-      <p class="correct"><span class="js-feedback"></span></p>
-    </div>
     <div class="submit">
-      <button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false">Submit</button>
-    </div>
-    <div class="current-question-div">
-      <p>Current Question:<span class="js-current-question"> 1</span> of 10</p>
-    </div>
-    <div class="current-score-div">
-      <p>Current Score:<span class="js-current-score"> 0</span> of 10</p>
-    </div>
-    <footer>
+        <button type="submit" value="Submit" role="button" class="submit-btn" aria-pressed="false">Submit</button>
+      </div>
+      <div class="current-question-div">
+        <p>Current Question:<span class="js-current-question"> 1</span> of 10</p>
+      </div>
+      <div class="current-score-div">
+        <p>Current Score: <span class="js-current-score"> 0</span> of 10</p>
+      </div>
+      <footer>
   </main>
 </body>
 
