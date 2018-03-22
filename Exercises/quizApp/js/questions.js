@@ -178,7 +178,7 @@ function clearResultsandFeedback() {
 }
 
 function displayNoSelection() {
-  $(".feedback").html("<p>Please make a selection</p>");
+  $(".feedback").html("Please make a selection");
   $('.feedback').addClass('highlightNoSelection');
 }
 
