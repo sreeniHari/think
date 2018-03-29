@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Thinkful tube</title>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <link href="main.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Thinkful tube</title>
+  <link href="main.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" />
 </head>
+
 <body>
-<main>
+  <main>
     <h1>Youtube Search</h1>
     <form action="#" class="js-search-form">
-        <label for="query"></label>
-        <input type="text" class="js-query">
-        <button type="submit">Search</button>
+      <label for="query">Search videos: </label>
+      <input type="text" class="js-query" aria-label="Search videos">
+    </label>
+      <button type="submit" aria-label="Search button">Search</button>
     </form>
     <h2>Results</h2>
     <div class="js-search-results row">
     </div>
-</main>
-<script src="search.js"></script>
+  </main>
+  <script src="\\code.jquery.com/jquery.min.js"></script>
+  <script src="search.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js"></script>
 </body>
+
 </html>

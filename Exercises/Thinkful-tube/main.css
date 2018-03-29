@@ -1,6 +1,14 @@
 body {
     text-align: center;
+    font-size: 15px;
 }
+
+
+.channel{
+  text-align: left;
+  font-size: 15px;
+  clear: right;
+  }
 
 main {
     width: 800px;

@@ -11,15 +11,13 @@ function getDataFromApi(options) {
   $.getJSON(YOUTUBE_DATA_API, query, displayYoutubeSearchData);
 }
 
-function renderResult(result, thumbnail, id) {
-  var url = 'https://www.youtube.com/watch?v=' + id;
-  return `
-    <div class="col">
-    <a href="${url}">
-    <img class="banner" src="${thumbnail}">
-    </a>
-    </div>
-  `;
+function renderResult(result) {
+return `
+  <div class ="col">
+   <a data-fancybox="gallery" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}" alt="${result.snippet.title}"></a>
+   <a class="channel" href="https://www.youtube.com/channel/${result.snippet.channelId}" target="_blank">More >></a>
+ </div>
+ `;
 }
 
 function renderNavigation(res) {
@@ -39,10 +37,7 @@ function renderNavigation(res) {
 }
 
 function displayYoutubeSearchData(data) {
-  const results = data.items.map((item, index) => renderResult(item,
-    data.items[index].snippet.thumbnails.medium.url,
-    data.items[index].id.videoId
-  )).join('');
+  const results = data.items.map((item, index) => renderResult(item)).join('');
   const nav = renderNavigation(data);
   $('.js-search-results').html(`${nav}${results}`);
 }
