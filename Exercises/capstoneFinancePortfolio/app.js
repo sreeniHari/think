@@ -1,4 +1,23 @@
-let STORE = [];
+let DATA = {
+    // a string array of the symbols
+    symbols: [],
+    // keep the time series for each symbol
+    data: {},
+    current: {},
+    original: {},
+};
+const KEY = '1FQ2EX4V1KYE0I8K';
+
+function getSymbol(symbol) {
+    return $.ajax({
+        url: 'https://www.alphavantage.co/query',
+        data: {
+            function: 'TIME_SERIES_DAILY',
+            symbol: symbol,
+            apikey: KEY
+        }
+    });
+}
 
 function generateTimeline(tickerSymbol, tickerIndex, apikey) {
   // Function to generate portfolio timeline
@@ -15,17 +34,17 @@ function emit(eventName) {
 }
 
 function updateLocalStorage() {
-    localStorage.setItem('data', JSON.stringify(STORE));
+    localStorage.setItem('data', JSON.stringify(DATA));
 }
 
 function renderTickerList() {
-    const tickers = STORE.map(ticker => {
+    const tickers = DATA.symbols.map(ticker => {
         return `
             <li class="ticker">
                 <button class="ticker-remove" data-ticker="${ticker}">X</button>
-                <span class="ticker-name">${ticker}</span>
-                <span class="ticker-current"><i>$160.03</i></span>
-                <span class="ticker-since"><i>$160.03</i></span>
+                <a href="#" class="ticker-name">${ticker}</a>
+                <span class="ticker-current"><i>$${DATA.current[ticker]}</i></span>
+                <span class="ticker-since"><i>$${DATA.original[ticker]}</i></span>
             </li>`;
     }).join('');
     $('.portfolio').html(tickers);
@@ -34,21 +53,35 @@ function renderTickerList() {
 function initializeData() {
     const data = localStorage.getItem('data');
     if (data !== null) {
-        STORE = JSON.parse(data);
+        DATA = JSON.parse(data);
     }
 }
 
 function addToPortfolio(ticker) {
-    if (!STORE.includes(ticker)) {
-        //STORE.push({ticker, date: new Date().getTime(), costBasis: value, numberOfShares: 100});
-        STORE.push(ticker);
-        emit('list-update');
-    }
+    getSymbol(ticker).then(data => {
+        if (data['Error Message']) {
+            console.warn(`Invalid symbol: ${ticker}`);
+        } else if (data['Time Series (Daily)']) {
+            if (!DATA.symbols.includes(ticker)) {
+                const series = Object.entries(data['Time Series (Daily)']).map((pair) => {
+                    const date = pair[0];
+                    const close = pair[1]['4. close'];
+                    return [ new Date(date).getTime(), parseFloat(close, 10) ];
+                });
+                DATA.symbols.push(ticker);
+                DATA.data[ticker] = series;
+                DATA.current[ticker] = series[series.length - 1][1];
+                DATA.original[ticker] = series[series.length - 1][1];
+                emit('list-update');
+            }
+        }
+    });
 }
 
 function removeFromPortfolio(ticker) {
-    const index = STORE.indexOf(ticker);
-    STORE.splice(index, 1);
+    const index = DATA.symbols.indexOf(ticker);
+    DATA.symbols.splice(index, 1);
+    delete DATA.data[ticker];
     emit('list-update');
 }
 
@@ -70,13 +103,42 @@ function clickDelete() {
     });
 }
 
+function clickStock() {
+    $(document).on('click', '.ticker-name', e => {
+        e.preventDefault();
+        const symbol = $(e.target).text();
+        renderStockTimeSeries(symbol);
+    });
+}
+
 function render() {
     renderTickerList();
+}
+
+function renderStockTimeSeries(symbol) {
+    Highcharts.stockChart('stock', {
+        rangeSelector: {
+            selected: 1
+        },
+
+        title: {
+            text: `${symbol} Stock Price`
+        },
+
+        series: [{
+            name: symbol,
+            data: DATA.data[symbol],
+            tooltip: {
+                valueDecimals: 2
+            }
+        }]
+    });
 }
 
 function initializeEvents() {
     submitPortfolio();
     clickDelete();
+    clickStock();
 }
 
 // Functions to handle
