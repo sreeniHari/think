@@ -10,14 +10,19 @@
 <body>
     <div class="container">
         <h1>Your Finance Portfolio</h1>
-        <form id="portfolio-form">
+        <form id="js-portfolio-form">
             <label for="tickerSymbol">Add ticker symbol</label>
             <input type="text" name="tickerSymbol" class="js-tickerSymbol" placeholder="Example: AAPL">
             <button type="submit">Add item</button>
         </form>
+        <div class="portfolio-header">
+        </div>
         <ul class="portfolio">
         </ul>
+        <div id="stock">
+        </div>
     </div>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="//code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>

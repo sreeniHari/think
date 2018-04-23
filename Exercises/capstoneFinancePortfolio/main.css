@@ -1,3 +1,30 @@
 body {
-  font-family: verdana;
+  font-family: sans-serif;
+}
+
+.ticker-remove{
+  height: 32px;
+  width: 32px;
+  background-image:url('http://files.softicons.com/download/toolbar-icons/flatastic-icons-part-1-by-custom-icon-design/png/32x32/delete1.png');
+  background-repeat:no-repeat;
+}
+
+.row-span , .ticker-remove , .ticker-current{
+  padding-left: 10px;
+  padding-right: 30px;
+  font-family: sans-serif;
+  align-items: center;
+}
+
+.portfolio-header {
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 30px;
+  font-family: sans-serif;
+  align-items: center;
+}
+
+li{
+  list-style:none;
+  display: table;
 }
